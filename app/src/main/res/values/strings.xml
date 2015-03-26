@@ -1,0 +1,66 @@
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+    <string name="app_name">CourseCaddy</string>
+
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_activity_course">Courses</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Key name for storing location in SharedPreferences [CHAR LIMIT=NONE] -->
+    <string name="pref_location_key" translatable="false">location</string>
+
+    <!-- Default postal code for location preference [CHAR LIMIT=NONE] -->
+    <string name="pref_location_default" translatable="false">37244</string>
+
+    <!-- Strings related to Notification Enabled preference -->
+    <string name="pref_enable_notifications_key" translatable="false">enable_notifications</string>
+    <string name="pref_enable_notifications_label">Weather Notifications</string>
+
+    <string name="pref_enable_notifications_true">Enabled</string>
+    <string name="pref_enable_notifications_false">Not Enabled</string>
+    <string name="pref_enable_notifications_default" translatable="false">true</string>
+
+    <!-- Key name for temperature unit preference in SharedPreferences [CHAR LIMIT=NONE] -->
+    <string name="pref_units_key" translatable="false">units</string>
+
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">coursecaddy.example.com</string>
+    <string name="content_authority">com.gunn.coursecaddy</string>
+
+    <!-- Notification Format -->
+    <string name="format_notification">Forecast: <xliff:g id="condition">%1$s</xliff:g> High: <xliff:g id="high">%2$s</xliff:g> Low: <xliff:g id="low">%3$s</xliff:g></string>
+
+    <!-- Strings related to Notification preference -->
+    <string name="pref_last_notification">last_notification</string>
+
+    <!-- Strings related to create account -->
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_first_name">First Name</string>
+    <string name="prompt_last_name">Last Name</string>
+    <string name="prompt_email">Email</string>
+    <string name="label_gender">Gender</string>
+    <string name="label_address">Address</string>
+    <string name="prompt_address_line_1">Line 1</string>
+    <string name="prompt_address_line_2">Line 2</string>
+    <string name="prompt_address_city">City</string>
+    <string name="label_address_state">State</string>
+    <string name="label_address_postal_code">Postal Code</string>
+    <string name="prompt_address_country_code">Country</string>
+    <string name="prompt_phone_area_code">###</string>
+    <string name="prompt_phone_number">### - ####</string>
+    <string name="label_phone_number">Phone #</string>
+    <string name="label_send_email">Send Email</string>
+    <string name="label_create_account">Create Account</string>
+
+    <!-- Strings related to login -->
+    <string name="action_sign_in">Sign in</string>
+    <string name="register_account"><u>Register Account</u></string>
+    <string name="continue_as_guest"><u>Continue as guest</u></string>
+
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+</resources>
