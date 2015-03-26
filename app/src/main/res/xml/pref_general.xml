@@ -3,19 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<EditTextPreference-->
-        <!--android:title="@string/pref_location_label"-->
-        <!--android:key="@string/pref_location_key"-->
-        <!--android:defaultValue="@string/pref_location_default"-->
-        <!--android:inputType="text"-->
-        <!--android:singleLine="true" />-->
+    <EditTextPreference
+        android:title="@string/pref_location_default"
+        android:key="@string/pref_location_key"
+        android:defaultValue="@string/pref_location_default"
+        android:inputType="text"
+        android:singleLine="true" />
 
-    <!--<ListPreference-->
-        <!--android:title="@string/pref_units_label"-->
-        <!--android:key="@string/pref_units_key"-->
-        <!--android:defaultValue="@string/pref_units_metric"-->
-        <!--android:entryValues="@array/pref_units_values"-->
-        <!--android:entries="@array/pref_units_options" />-->
+    <ListPreference
+        android:title="Miles"
+        android:key="@string/pref_units_key"
+        android:defaultValue="5"
+        android:entryValues="@array/miles_distance"
+        android:entries="@array/miles_distance" />
 
     <!--<CheckBoxPreference-->
         <!--android:title="@string/pref_enable_notifications_label"-->
@@ -23,5 +23,4 @@
         <!--android:summaryOff="@string/pref_enable_notifications_false"-->
         <!--android:summaryOn="@string/pref_enable_notifications_true"-->
         <!--android:defaultValue="@string/pref_enable_notifications_default" />-->
-
 </PreferenceScreen>

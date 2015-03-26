@@ -105,10 +105,14 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content" />
 
-            <EditText android:id="@+id/create_account_gender"
+            <Spinner android:id="@+id/create_account_gender"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:defaultValue="Male"
+                android:entryValues="@array/gender_options"
+                android:entries="@array/gender_options"
+                android:spinnerMode="dropdown" />
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -185,10 +189,13 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="8dp"/>
 
-            <EditText android:id="@+id/create_account_address_state"
-                android:layout_width="50dp"
+            <Spinner android:id="@+id/create_account_address_state"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:defaultValue="..."
+                android:entryValues="@array/states_abbv_options"
+                android:entries="@array/states_values"
+                android:spinnerMode="dropdown" />
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
