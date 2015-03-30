@@ -35,7 +35,16 @@
 
         <activity
             android:name=".CourseListActivity"
-            android:label="@string/title_activity_course"
+            android:label="@string/title_activity_course_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gunn.coursecaddy.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".CourseDetailActivity"
+            android:label="@string/title_activity_course_detail"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -79,5 +88,4 @@
                 android:resource="@xml/syncadapter" />
         </service>
     </application>
-
 </manifest>
