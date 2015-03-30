@@ -8,6 +8,8 @@ import android.os.IBinder;
  * Created by SESA300553 on 3/23/2015.
  */
 public class CourseCaddyAuthenticatorService extends Service {
+    public final String LOG_TAG = CourseCaddyAuthenticatorService.class.getSimpleName();
+
     // Instance field that stores the authenticator object
     private CourseCaddyAuthenticator mAuthenticator;
 

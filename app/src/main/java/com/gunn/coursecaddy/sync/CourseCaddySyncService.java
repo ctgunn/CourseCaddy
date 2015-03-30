@@ -12,14 +12,14 @@ public class CourseCaddySyncService extends Service {
     private final String LOG_TAG = CourseCaddySyncService.class.getSimpleName();
 
     private static final Object sSyncAdapterLock = new Object();
-    private static CourseCaddySyncService sCourseCaddySyncAdapter = null;
+    private static CourseCaddySyncAdapter sCourseCaddySyncAdapter = null;
 
     @Override
     public void onCreate() {
-        Log.d("SunshineSyncService", "onCreate - SunshineSyncService");
+        Log.d("CourseCaddySyncService", "onCreate - CourseCaddySyncService");
         synchronized (sSyncAdapterLock) {
             if (sCourseCaddySyncAdapter == null) {
-                sCourseCaddySyncAdapter = new CourseCaddySyncService(getApplicationContext(), true);
+                sCourseCaddySyncAdapter = new CourseCaddySyncAdapter(getApplicationContext(), true);
             }
         }
     }

@@ -56,7 +56,9 @@ public class CourseCaddySyncAdapter extends AbstractThreadedSyncAdapter {
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     private static final int WEATHER_NOTIFICATION_ID = 3004;
 
-    private static final String[] NOTIFY_WEATHER_PROJECTION = new String[] {
+    private static final String[] NOTIFY_COURSES_NEARBY = new String[] {
+            //TODO: Put some columns from the course table in here.
+
 //            GolfNowContract.WeatherEntry.COLUMN_WEATHER_ID,
 //            GolfNowContract.WeatherEntry.COLUMN_MAX_TEMP,
 //            GolfNowContract.WeatherEntry.COLUMN_MIN_TEMP,
@@ -64,10 +66,10 @@ public class CourseCaddySyncAdapter extends AbstractThreadedSyncAdapter {
     };
 
     // these indices must match the projection
-    private static final int INDEX_WEATHER_ID = 0;
-    private static final int INDEX_MAX_TEMP = 1;
-    private static final int INDEX_MIN_TEMP = 2;
-    private static final int INDEX_SHORT_DESC = 3;
+//    private static final int INDEX_WEATHER_ID = 0;
+//    private static final int INDEX_MAX_TEMP = 1;
+//    private static final int INDEX_MIN_TEMP = 2;
+//    private static final int INDEX_SHORT_DESC = 3;
 
     public CourseCaddySyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -87,8 +89,8 @@ public class CourseCaddySyncAdapter extends AbstractThreadedSyncAdapter {
         String forecastJsonStr = null;
 
         String format = "json";
-        String units = "metric";
-        int numDays = 14;
+        String units = "miles";
+        int numMiles = 50;
 
         try {
             // Construct the URL for the OpenWeatherMap query
@@ -99,13 +101,15 @@ public class CourseCaddySyncAdapter extends AbstractThreadedSyncAdapter {
             final String QUERY_PARAM = "q";
             final String FORMAT_PARAM = "mode";
             final String UNITS_PARAM = "units";
-            final String DAYS_PARAM = "cnt";
+            final String MILES_PARAM = "dist";
+
+            //TODO: NEED TO BUILD A REAL QUERY HERE.
 
             Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(QUERY_PARAM, locationQuery)
                     .appendQueryParameter(FORMAT_PARAM, format)
                     .appendQueryParameter(UNITS_PARAM, units)
-                    .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
+                    .appendQueryParameter(MILES_PARAM, Integer.toString(numMiles))
                     .build();
 
             URL url = new URL(builtUri.toString());
@@ -214,7 +218,7 @@ public class CourseCaddySyncAdapter extends AbstractThreadedSyncAdapter {
             double cityLatitude = cityCoord.getDouble(OWM_LATITUDE);
             double cityLongitude = cityCoord.getDouble(OWM_LONGITUDE);
 
-            long locationId = addLocation(locationSetting, cityName, cityLatitude, cityLongitude);
+            long courseId = addCourse(locationSetting, cityName, cityLatitude, cityLongitude);
 
             // Insert the new weather information into the database
             Vector<ContentValues> cVVector = new Vector<ContentValues>(weatherArray.length());
@@ -331,65 +335,66 @@ public class CourseCaddySyncAdapter extends AbstractThreadedSyncAdapter {
                 // Last sync was more than 1 day ago, let's send a notification with the weather.
                 String locationQuery = Utility.getPreferredLocation(context);
 
-                Uri weatherUri = GolfNowContract.WeatherEntry.buildWeatherLocationWithDate(locationQuery, System.currentTimeMillis());
+                //TODO: NEED TO GET A REAL VALUE TO PASS TO BUILDCOURSEURI FUNCTION.
+                Uri courseUri = GolfNowContract.CourseEntry.buildCourseUri(1);
 
                 // we'll query our contentProvider, as always
-                Cursor cursor = context.getContentResolver().query(weatherUri, NOTIFY_WEATHER_PROJECTION, null, null, null);
+                Cursor cursor = context.getContentResolver().query(courseUri, NOTIFY_COURSES_NEARBY, null, null, null);
 
                 if (cursor.moveToFirst()) {
-                    int weatherId = cursor.getInt(INDEX_WEATHER_ID);
-                    double high = cursor.getDouble(INDEX_MAX_TEMP);
-                    double low = cursor.getDouble(INDEX_MIN_TEMP);
-                    String desc = cursor.getString(INDEX_SHORT_DESC);
+//                    int weatherId = cursor.getInt(INDEX_WEATHER_ID);
+//                    double high = cursor.getDouble(INDEX_MAX_TEMP);
+//                    double low = cursor.getDouble(INDEX_MIN_TEMP);
+//                    String desc = cursor.getString(INDEX_SHORT_DESC);
 
-                    int iconId = Utility.getIconResourceForWeatherCondition(weatherId);
+//                    int iconId = Utility.getIconResourceForWeatherCondition(weatherId);
                     Resources resources = context.getResources();
-                    Bitmap largeIcon = BitmapFactory.decodeResource(resources,
-                            Utility.getArtResourceForWeatherCondition(weatherId));
-                    String title = context.getString(R.string.app_name);
+//                    Bitmap largeIcon = BitmapFactory.decodeResource(resources,
+//                            Utility.getArtResourceForWeatherCondition(weatherId));
+//                    String title = context.getString(R.string.app_name);
 
                     // Define the text of the forecast.
-                    String contentText = String.format(context.getString(R.string.format_notification),
-                            desc,
-                            Utility.formatTemperature(context, high),
-                            Utility.formatTemperature(context, low));
+//                    String contentText = String.format(context.getString(R.string.format_notification),
+//                            desc,
+//                            Utility.formatTemperature(context, high),
+//                            Utility.formatTemperature(context, low));
 
                     // NotificationCompatBuilder is a very convenient way to build backward-compatible
                     // notifications.  Just throw in some data.
-                    NotificationCompat.Builder mBuilder =
-                            new NotificationCompat.Builder(getContext())
-                                    .setColor(resources.getColor(R.color.sunshine_light_blue))
-                                    .setSmallIcon(iconId)
-                                    .setLargeIcon(largeIcon)
-                                    .setContentTitle(title)
-                                    .setContentText(contentText);
+//                    NotificationCompat.Builder mBuilder =
+//                            new NotificationCompat.Builder(getContext())
+//                                    .setColor(resources.getColor(R.color.sunshine_light_blue))
+//                                    .setSmallIcon(iconId)
+//                                    .setLargeIcon(largeIcon)
+//                                    .setContentTitle(title)
+//                                    .setContentText(contentText);
 
                     // Make something interesting happen when the user clicks on the notification.
                     // In this case, opening the app is sufficient.
-                    Intent resultIntent = new Intent(context, MainActivity.class);
+//                    Intent resultIntent = new Intent(context, MainActivity.class);
 
                     // The stack builder object will contain an artificial back stack for the
                     // started Activity.
                     // This ensures that navigating backward from the Activity leads out of
                     // your application to the Home screen.
-                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                    stackBuilder.addNextIntent(resultIntent);
-                    PendingIntent resultPendingIntent =
-                            stackBuilder.getPendingIntent(
-                                    0,
-                                    PendingIntent.FLAG_UPDATE_CURRENT
-                            );
-                    mBuilder.setContentIntent(resultPendingIntent);
+//                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+//                    stackBuilder.addNextIntent(resultIntent);
+//                    PendingIntent resultPendingIntent =
+//                            stackBuilder.getPendingIntent(
+//                                    0,
+//                                    PendingIntent.FLAG_UPDATE_CURRENT
+//                            );
+//                    mBuilder.setContentIntent(resultPendingIntent);
 
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+//                    NotificationManager mNotificationManager =
+//                            (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
                     // WEATHER_NOTIFICATION_ID allows you to update the notification later on.
-                    mNotificationManager.notify(WEATHER_NOTIFICATION_ID, mBuilder.build());
+//                    mNotificationManager.notify(WEATHER_NOTIFICATION_ID, mBuilder.build());
 
                     //refreshing last sync
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putLong(lastNotificationKey, System.currentTimeMillis());
-                    editor.commit();
+//                    SharedPreferences.Editor editor = prefs.edit();
+//                    editor.putLong(lastNotificationKey, System.currentTimeMillis());
+//                    editor.commit();
                 }
                 cursor.close();
             }
@@ -399,26 +404,26 @@ public class CourseCaddySyncAdapter extends AbstractThreadedSyncAdapter {
     /**
      * Helper method to handle insertion of a new location in the weather database.
      *
-     * @param locationSetting The location string used to request updates from the server.
-     * @param cityName A human-readable city name, e.g "Mountain View"
+     * @param courseName The location string used to request updates from the server.
+     * @param addressId A human-readable city name, e.g "Mountain View"
      * @param lat the latitude of the city
      * @param lon the longitude of the city
      * @return the row ID of the added location.
      */
-    long addLocation(String locationSetting, String cityName, double lat, double lon) {
-        long locationId;
+    long addCourse(String courseName, String addressId, double lat, double lon) {
+        long courseId;
 
         // First, check if the location with this city name exists in the db
-        Cursor locationCursor = getContext().getContentResolver().query(
-                GolfNowContract.LocationEntry.CONTENT_URI,
-                new String[]{GolfNowContract.LocationEntry._ID},
-                GolfNowContract.LocationEntry.COLUMN_LOCATION_SETTING + " = ?",
-                new String[]{locationSetting},
+        Cursor courseCursor = getContext().getContentResolver().query(
+                GolfNowContract.CourseEntry.CONTENT_URI,
+                new String[]{GolfNowContract.CourseEntry._ID},
+                GolfNowContract.CourseEntry.COLUMN_COURSE_NAME + " = ?",
+                new String[]{courseName},
                 null);
 
-        if (locationCursor.moveToFirst()) {
-            int locationIdIndex = locationCursor.getColumnIndex(GolfNowContract.LocationEntry._ID);
-            locationId = locationCursor.getLong(locationIdIndex);
+        if (courseCursor.moveToFirst()) {
+            int locationIdIndex = courseCursor.getColumnIndex(GolfNowContract.CourseEntry._ID);
+            courseId = courseCursor.getLong(locationIdIndex);
         }
         else {
             // Now that the content provider is set up, inserting rows of data is pretty simple.
@@ -427,24 +432,24 @@ public class CourseCaddySyncAdapter extends AbstractThreadedSyncAdapter {
 
             // Then add the data, along with the corresponding name of the data type,
             // so the content provider knows what kind of value is being inserted.
-            locationValues.put(GolfNowContract.LocationEntry.COLUMN_CITY_NAME, cityName);
-            locationValues.put(GolfNowContract.LocationEntry.COLUMN_LOCATION_SETTING, locationSetting);
-            locationValues.put(GolfNowContract.LocationEntry.COLUMN_COORD_LAT, lat);
-            locationValues.put(GolfNowContract.LocationEntry.COLUMN_COORD_LONG, lon);
+            locationValues.put(GolfNowContract.CourseEntry.COLUMN_COURSE_NAME, courseName);
+            locationValues.put(GolfNowContract.CourseEntry.COLUMN_COURSE_ADDRESS_ID, addressId);
+            locationValues.put(GolfNowContract.CourseEntry.COLUMN_COURSE_LATITUDE, lat);
+            locationValues.put(GolfNowContract.CourseEntry.COLUMN_COURSE_LONGITUDE, lon);
 
             // Finally, insert location data into the database.
             Uri insertedUri = getContext().getContentResolver().insert(
-                    GolfNowContract.LocationEntry.CONTENT_URI,
+                    GolfNowContract.CourseEntry.CONTENT_URI,
                     locationValues
             );
 
             // The resulting URI contains the ID for the row.  Extract the locationId from the Uri.
-            locationId = ContentUris.parseId(insertedUri);
+            courseId = ContentUris.parseId(insertedUri);
         }
 
-        locationCursor.close();
+        courseCursor.close();
         // Wait, that worked?  Yes!
-        return locationId;
+        return courseId;
     }
 
     /**

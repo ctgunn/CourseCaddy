@@ -10,6 +10,9 @@ import android.text.format.Time;
  * Created by SESA300553 on 3/22/2015.
  */
 public class GolfNowContract {
+
+    public final String LOG_TAG = GolfNowContract.class.getSimpleName();
+
     // The "Content authority" is a name for the entire content provider, similar to the
     // relationship between a domain name and its website.  A convenient string to use for the
     // content authority is the package name for the app, which is guaranteed to be unique on the
